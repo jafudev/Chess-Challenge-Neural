@@ -1,5 +1,6 @@
 from typing import List
 import numpy as np
+from globals import PROCESSED_DATA_CSV_PATH, LICHESS_DATASET_PATH
 from chess import pgn, Board, Color
 
 
@@ -43,9 +44,9 @@ def process_game(game: pgn.Game, out_file):
 
 
 def preprocess(max=10000) -> None:
-    with open('dataset/processed.csv', 'w') as out_file:
+    with open(PROCESSED_DATA_CSV_PATH, 'w') as out_file:
 
-        with open("dataset/lichess_db_standard_rates_2023-05_000.pgn", 'r') as in_file:
+        with open(LICHESS_DATASET_PATH, 'r') as in_file:
             game_counter = 0
             while game_counter < max:
                 game = pgn.read_game(in_file)

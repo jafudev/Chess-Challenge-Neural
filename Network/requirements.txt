@@ -1,0 +1,8 @@
+zstandard
+tqdm
+requests
+numpy
+chess
+pandas
+tensorflow
+matplotlib

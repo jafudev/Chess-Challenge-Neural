@@ -7,6 +7,10 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.regularizers import l2
 from main import format_model_to_c_sharp
+import matplotlib.pyplot as plt
+from globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH
+from os import mkdir
+from shutil import rmtree
 
 
 TRAINING_SPLIT = 0.7
@@ -27,7 +31,6 @@ def plot_history(history, folder: str):
 
 
 def plot(data: List, val_data: List, type: str, folder: str):
-    import matplotlib.pyplot as plt
     plt.plot(data)
     plt.plot(val_data)
     plt.title(f'model {type}')
@@ -38,7 +41,7 @@ def plot(data: List, val_data: List, type: str, folder: str):
     plt.clf()
 
 
-data = pd.read_csv('dataset/processed.csv', header=None)
+data = pd.read_csv(PROCESSED_DATA_CSV_PATH, header=None)
 
 training, validation, test = \
             np.split(data.sample(frac=1, random_state=42), 
@@ -62,10 +65,19 @@ model.add(Dense(1, activation='tanh', kernel_regularizer=l2(0.001)))
 model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.0001))
 model.summary()
 
-history = model.fit(train_x, train_y, epochs=20, batch_size=32, validation_data=(val_x, val_y))
-plot_history(history, 'plots/')
+history = model.fit(train_x, train_y, epochs=10, batch_size=32, validation_data=(val_x, val_y))
+
+try:
+    mkdir(TRAINED_MODEL_PATH)
+    mkdir(PLOTS_PATH)
+except:
+    rmtree(TRAINED_MODEL_PATH)
+    mkdir(TRAINED_MODEL_PATH)
+    mkdir(PLOTS_PATH)
+
+plot_history(history, PLOTS_PATH)
 
 
 c_sharp_model = format_model_to_c_sharp(model)
-with open('csharpmodel.txt', 'w') as file:
+with open(OUTPUT_CSHARP_MODEL_PATH, 'w') as file:
     file.write(c_sharp_model)
