@@ -7,7 +7,7 @@ PROCESSED_DATA_CSV_NAME = "processed.csv"
 TRAINED_MODEL_PATH = "trained_model"
 OUTPUT_CSHARP_MODEL = "csharpmodel.txt"
 PLOTS_DIRECTORY = "plots/"
-
+OUTPUT_MODEL = "model.keras"
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -19,4 +19,4 @@ PROCESSED_DATA_CSV_PATH = f"{DATASET_PATH}/{PROCESSED_DATA_CSV_NAME}"
 TRAINED_MODEL_PATH = f"{current_directory}/{TRAINED_MODEL_PATH}"
 OUTPUT_CSHARP_MODEL_PATH = f"{TRAINED_MODEL_PATH}/{OUTPUT_CSHARP_MODEL}"
 PLOTS_PATH = f"{TRAINED_MODEL_PATH}/{PLOTS_DIRECTORY}"
-
+MODEL_PATH = f"{TRAINED_MODEL_PATH}/{OUTPUT_MODEL}"

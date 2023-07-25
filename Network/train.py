@@ -8,7 +8,7 @@ from keras.optimizers import Adam
 from keras.regularizers import l2
 from main import format_model_to_c_sharp
 import matplotlib.pyplot as plt
-from globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH
+from globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH, MODEL_PATH
 from os import mkdir
 from shutil import rmtree
 
@@ -55,12 +55,12 @@ test_x, test_y = extract_x_y(test)
     
 # print(sum(train_y > 0.7) / len(train_y))
 
-tensorflow.keras.backend.set_floatx('float64')
+# tensorflow.keras.backend.set_floatx('float16')
 
 model = Sequential()
-model.add(Dense(500, input_shape=(64,),activation='relu', kernel_regularizer=l2(0.001)))
-model.add(Dense(300, activation='relu', kernel_regularizer=l2(0.001)))
-model.add(Dense(300, activation='relu', kernel_regularizer=l2(0.001)))
+model.add(Dense(200, input_shape=(64,),activation='relu', kernel_regularizer=l2(0.001)))
+model.add(Dense(200, activation='relu', kernel_regularizer=l2(0.001)))
+model.add(Dense(200, activation='relu', kernel_regularizer=l2(0.001)))
 model.add(Dense(1, activation='tanh', kernel_regularizer=l2(0.001)))
 model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.0001))
 model.summary()
@@ -77,6 +77,7 @@ except:
 
 plot_history(history, PLOTS_PATH)
 
+model.save(MODEL_PATH)
 
 c_sharp_model = format_model_to_c_sharp(model)
 with open(OUTPUT_CSHARP_MODEL_PATH, 'w') as file:
