@@ -1,10 +1,10 @@
 import os
 
 LICHESS_DATA_SET = "lichess_db_standard_rated_2023-05.pgn"
-TARGET_PATH = "dataset"
+TARGET_PATH = "../dataset"
 PROCESSED_DATA_CSV_NAME = "processed.csv"
 
-TRAINED_MODEL_PATH = "trained_model"
+TRAINED_MODEL_PATH = "../trained_model"
 OUTPUT_CSHARP_MODEL = "csharpmodel.txt"
 PLOTS_DIRECTORY = "plots/"
 OUTPUT_MODEL = "model.keras"

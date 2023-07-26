@@ -1,14 +1,13 @@
 from typing import List
 import pandas as pd
 import numpy as np
-import tensorflow
 from keras import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.regularizers import l2
-from main import format_model_to_c_sharp
+from common.weights_to_csharp_conversion import format_model_to_c_sharp
 import matplotlib.pyplot as plt
-from globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH, MODEL_PATH
+from common.globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH, MODEL_PATH
 from os import mkdir
 from shutil import rmtree
 

@@ -1,6 +1,5 @@
-from typing import List
 import numpy as np
-from globals import PROCESSED_DATA_CSV_PATH, LICHESS_DATASET_PATH
+from common.globals import PROCESSED_DATA_CSV_PATH, LICHESS_DATASET_PATH
 from chess import pgn, Board, Color
 
 

@@ -1,11 +1,4 @@
 import struct
-from keras import Sequential
-from keras.layers import Dense
-from keras.optimizers import Adam
-
-import numpy as np
-import tensorflow
-import random as python_random
 
 
 def half_to_hex(h) -> str:
@@ -24,7 +17,7 @@ def extract_weights_in_bytes(model):
     all_weight_bytes = []
     for layer in model.layers:
         layer_weight_bytes = []
-        layer_weights=layer.get_weights()
+        layer_weights = layer.get_weights()
         # Extract weights
         for step in layer_weights[0]:
             for weight in step:
@@ -38,6 +31,7 @@ def extract_weights_in_bytes(model):
             layer_weight_bytes.append(bias_bytes)
         all_weight_bytes.append(layer_weight_bytes)
     return all_weight_bytes
+
 
 def group_weight_bytes(all_weight_bytes):
     grouped_weight_bytes = []
@@ -93,17 +87,3 @@ def format_model_to_c_sharp(model):
     for model_layer, encoded_layer in zip(model.layers, encoded_weight_bytes):
         model_str += f'input = Layer({model_layer.output_shape[1]}, input, {format_encoded_weights_to_c_sharp_array(encoded_layer)});\n'
     return model_str
-
-
-def test_eval(model):
-    pieces = [4, 0, 3, 5, 6, 3, 2, 4, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -4, -2, -3, -5, -6, -3, -2, -4]
-    test_input = np.array([pieces])
-    eval = model.predict(test_input)
-    print(eval)
-
-
-def fix_seeds(seed):
-    np.random.seed(seed)
-    tensorflow.random.set_seed(seed)
-    python_random.seed(seed)
-
