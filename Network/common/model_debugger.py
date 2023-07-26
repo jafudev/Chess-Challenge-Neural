@@ -1,3 +1,4 @@
+import tensorflow
 from keras import Model, models
 import numpy as np
 
@@ -39,19 +40,18 @@ def layer(output_length: int, input_layer: np.ndarray, model_weights) -> np.ndar
 
 
 test_position = [
-    4,  0,  3,  5,  6,  3,  2,  4,
-    1,  1,  1,  1,  1,  1,  1,  1,
-    2,  0,  0,  0,  0,  0,  0,  0,
+    4,  0,  3,  0,  6,  3,  2,  4,
+    1,  1,  1,  0,  1,  1,  1,  1,
+    2,  0,  0,  5,  0,  0,  0,  0,
+    0,  0,  0,  1,  0,  0,  0,  0,
+    0,  0,  0,  -1, -1, 0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,
-    -1, -1, -1, -1, -1, -1, -1, -1,
+    -1, -1, -1, 0,  0,  -1, -1, -1,
     -4, -2, -3, -5, -6, -3, -2, -4,
 ]
 
 trained_model: Model = models.load_model(MODEL_PATH)
 print(f"Keras Model Prediction:\t\t{trained_model.predict(np.array([test_position]), verbose=False)[0][0]}")
-
 
 weights = extract_weights(trained_model)
 output_length_of_layers = [layer.output.shape[1] for layer in trained_model.layers]

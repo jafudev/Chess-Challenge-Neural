@@ -13,9 +13,9 @@ def board_to_piece_squares(board: Board, color: Color) -> np.ndarray:
             # Negate piece_type for black pieces since piece_type is positive for black and white
             if not piece.color:
                 mapped_piece *= -1
-            square_index = square if color else 63 - square
+            square_index = square if not color else 63 - square
             piece_squares[square_index] = mapped_piece
-    if not color:
+    if color:
         piece_squares *= -1
     return piece_squares
 
@@ -42,12 +42,12 @@ def process_game(game: pgn.Game, out_file):
         state = state.next()
 
 
-def preprocess(max=10000) -> None:
+def preprocess(max_games=1000000) -> None:
     with open(PROCESSED_DATA_CSV_PATH, 'w') as out_file:
 
         with open(LICHESS_DATASET_PATH, 'r') as in_file:
             game_counter = 0
-            while game_counter < max:
+            while game_counter < max_games:
                 game = pgn.read_game(in_file)
                 if game is None:
                     continue
