@@ -5,6 +5,8 @@ from keras import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam, RMSprop
 from keras.regularizers import l2
+from keras.src.layers import Dropout
+
 from common.weights_to_csharp_conversion import format_model_to_c_sharp
 import matplotlib.pyplot as plt
 from common.globals import OUTPUT_CSHARP_MODEL_PATH, PLOTS_PATH, PROCESSED_DATA_CSV_PATH, TRAINED_MODEL_PATH, MODEL_PATH
@@ -43,8 +45,11 @@ def plot(data: List, val_data: List, type: str, folder: str):
 def create_model():
     m = Sequential()
     m.add(Dense(20, input_shape=(64,), activation='relu', kernel_regularizer=l2(0.001)))
+    m.add(Dropout(0.2))
     m.add(Dense(20, activation='relu', kernel_regularizer=l2(0.001)))
+    m.add(Dropout(0.2))
     m.add(Dense(20, activation='relu', kernel_regularizer=l2(0.001)))
+    m.add(Dropout(0.2))
     m.add(Dense(1, activation='tanh', kernel_regularizer=l2(0.001)))
     m.summary()
     return m
@@ -62,8 +67,8 @@ val_x, val_y = extract_x_y(validation)
 test_x, test_y = extract_x_y(test)
 
 model = create_model()
-model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.0002))
-training_history = model.fit(train_x, train_y, epochs=30, batch_size=32, validation_data=(val_x, val_y))
+model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.0001))
+training_history = model.fit(train_x, train_y, epochs=20, batch_size=32, validation_data=(val_x, val_y))
 
 try:
     mkdir(TRAINED_MODEL_PATH)

@@ -18,6 +18,8 @@ def extract_weights_in_bytes(model):
     for layer in model.layers:
         layer_weight_bytes = []
         layer_weights = layer.get_weights()
+        if len(layer_weights) == 0:
+            continue
         # Extract weights
         for step in layer_weights[0]:
             for weight in step:
@@ -84,6 +86,7 @@ def format_model_to_c_sharp(model):
     encoded_weight_bytes = encode_weight_bytes(grouped_weight_bytes)
 
     model_str = ''
-    for model_layer, encoded_layer in zip(model.layers, encoded_weight_bytes):
-        model_str += f'input = Layer({model_layer.output_shape[1]}, input, {format_encoded_weights_to_c_sharp_array(encoded_layer)});\n'
+    output_length_of_layers = [layer.output.shape[1] for layer in model.layers if len(layer.weights) > 0]
+    for output_size, encoded_layer in zip(output_length_of_layers, encoded_weight_bytes):
+        model_str += f'input = Layer({output_size}, input, {format_encoded_weights_to_c_sharp_array(encoded_layer)});\n'
     return model_str

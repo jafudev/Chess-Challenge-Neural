@@ -10,6 +10,8 @@ def extract_weights(model):
     for model_layer in model.layers:
         layer_weight_bytes = []
         layer_weights = model_layer.get_weights()
+        if len(layer_weights) == 0:
+            continue
         # Extract weights
         for step in layer_weights[0]:
             for weight in step:
@@ -54,7 +56,7 @@ trained_model: Model = models.load_model(MODEL_PATH)
 print(f"Keras Model Prediction:\t\t{trained_model.predict(np.array([test_position]), verbose=False)[0][0]}")
 
 weights = extract_weights(trained_model)
-output_length_of_layers = [layer.output.shape[1] for layer in trained_model.layers]
+output_length_of_layers = [layer.output.shape[1] for layer in trained_model.layers if len(layer.weights) > 0]
 
 output = layer(output_length_of_layers[0], np.array([*test_position, 1]), weights[0])
 output = layer(output_length_of_layers[1], output, weights[1])
