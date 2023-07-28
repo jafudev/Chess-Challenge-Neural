@@ -44,11 +44,11 @@ def plot(data: List, val_data: List, type: str, folder: str):
 
 def create_model():
     m = Sequential()
-    m.add(Dense(20, input_shape=(64,), activation='relu')) #, kernel_regularizer=l2(0.001)))
+    m.add(Dense(25, input_shape=(64,), activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
     m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
-    m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    # m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
     m.add(Dense(1, activation='tanh')) #, kernel_regularizer=l2(0.001)))
     m.summary()
