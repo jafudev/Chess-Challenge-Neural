@@ -28,7 +28,7 @@ def uncompress_file(source_path: str, target_path: str):
             target_file.write(text_stream.read())
 
 
-FILE_SIZE_IN_MB = 16
+FILE_SIZE_IN_MB = 512
 
 try:
     mkdir(DATASET_PATH)

@@ -44,13 +44,13 @@ def plot(data: List, val_data: List, type: str, folder: str):
 
 def create_model():
     m = Sequential()
-    m.add(Dense(20, input_shape=(64,), activation='relu', kernel_regularizer=l2(0.001)))
-    m.add(Dropout(0.2))
-    m.add(Dense(20, activation='relu', kernel_regularizer=l2(0.001)))
-    m.add(Dropout(0.2))
-    m.add(Dense(20, activation='relu', kernel_regularizer=l2(0.001)))
-    m.add(Dropout(0.2))
-    m.add(Dense(1, activation='tanh', kernel_regularizer=l2(0.001)))
+    m.add(Dense(20, input_shape=(64,), activation='relu')) #, kernel_regularizer=l2(0.001)))
+    # m.add(Dropout(0.2))
+    m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    # m.add(Dropout(0.2))
+    m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    # m.add(Dropout(0.2))
+    m.add(Dense(1, activation='tanh')) #, kernel_regularizer=l2(0.001)))
     m.summary()
     return m
 
@@ -67,8 +67,8 @@ val_x, val_y = extract_x_y(validation)
 test_x, test_y = extract_x_y(test)
 
 model = create_model()
-model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.0001))
-training_history = model.fit(train_x, train_y, epochs=20, batch_size=32, validation_data=(val_x, val_y))
+model.compile(loss='mean_squared_error', optimizer=Adam(learning_rate=0.00002))
+training_history = model.fit(train_x, train_y, epochs=10, batch_size=32, validation_data=(val_x, val_y))
 
 try:
     mkdir(TRAINED_MODEL_PATH)
