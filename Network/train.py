@@ -48,7 +48,7 @@ def create_model():
     m = Sequential()
     m.add(Dense(5, input_shape=(INPUT_SIZE,), activation='relu')) #, kernel_regularizer=l2(0.001)))
     #m.add(Dropout(0.2))
-    m.add(Dense(3, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    # m.add(Dense(3, activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
     #m.add(Dense(100, activation='relu')) #, kernel_regularizer=l2(0.001)))
     #m.add(Dropout(0.2))
