@@ -18,10 +18,12 @@ TRAINING_SPLIT = 0.7
 VALIDATION_SPLIT = 0.15
 # TEST_SPLIT = 0.15 (1 - TRAINING_SPLIT - VALIDATION_SPLIT)
 
+INPUT_SIZE = 64 * 6
+
 
 def extract_x_y(dataset):
-    x = dataset.values[:, 0:64]
-    y = dataset.values[:, 64]
+    x = dataset.values[:, 0:INPUT_SIZE]
+    y = dataset.values[:, INPUT_SIZE]
     return x, y
 
 
@@ -44,11 +46,11 @@ def plot(data: List, val_data: List, type: str, folder: str):
 
 def create_model():
     m = Sequential()
-    m.add(Dense(25, input_shape=(64,), activation='relu')) #, kernel_regularizer=l2(0.001)))
+    m.add(Dense(200, input_shape=(INPUT_SIZE,), activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
-    m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    m.add(Dense(200, activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
-    # m.add(Dense(20, activation='relu')) #, kernel_regularizer=l2(0.001)))
+    m.add(Dense(100, activation='relu')) #, kernel_regularizer=l2(0.001)))
     # m.add(Dropout(0.2))
     m.add(Dense(1, activation='tanh')) #, kernel_regularizer=l2(0.001)))
     m.summary()

@@ -4,17 +4,17 @@ from chess import pgn, Board, Color
 
 
 def board_to_piece_squares(board: Board, color: Color) -> np.ndarray:
-    piece_squares = np.zeros(64, dtype=int)
+    piece_squares = np.zeros(6 * 64, dtype=int)
     for square in range(64):
         piece = board.piece_at(square)
         # Check if piece exists on square
         if piece is not None:
-            mapped_piece = piece.piece_type
+            piece_sign = 1
             # Negate piece_type for black pieces since piece_type is positive for black and white
             if not piece.color:
-                mapped_piece *= -1
+                piece_sign *= -1
             square_index = square if not color else 63 - square
-            piece_squares[square_index] = mapped_piece
+            piece_squares[square_index + 64 * (piece.piece_type - 1)] = piece_sign
     if color:
         piece_squares *= -1
     return piece_squares
