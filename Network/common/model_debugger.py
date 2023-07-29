@@ -47,16 +47,8 @@ def layer(output_length: int, input_layer: np.ndarray, model_weights) -> np.ndar
     return layer_output
 
 
-test_position = [
-    4,  0,  3,  0,  6,  3,  2,  4,
-    1,  1,  1,  0,  1,  1,  1,  1,
-    2,  0,  0,  5,  0,  0,  0,  0,
-    0,  0,  0,  1,  0,  0,  0,  0,
-    0,  0,  0,  -1, -1, 0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,
-    -1, -1, -1, 0,  0,  -1, -1, -1,
-    -4, -2, -3, -5, -6, -3, -2, -4,
-]
+test_position = [0,0,0,0,0,0,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,0,-1,-1,-1,-1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,-1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,-1,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,-1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0,0,0,0]
+
 
 trained_model: Model = models.load_model(MODEL_PATH)
 print(f"Keras Model Prediction:\t\t\t\t\t\t{trained_model.predict(np.array([test_position]), verbose=False)[0][0]}")
@@ -65,8 +57,7 @@ weights = extract_weights(trained_model)
 output_length_of_layers = [layer.output.shape[1] for layer in trained_model.layers if len(layer.weights) > 0]
 
 output = layer(output_length_of_layers[0], np.array([*test_position, 1], dtype=float64), weights[0])
-output = layer(output_length_of_layers[1], output, weights[1])
-output = layer(output_length_of_layers[2], output, weights[2])
-output = layer(output_length_of_layers[3], output, weights[3])
+for i in range(len(output_length_of_layers) - 1):
+    output = layer(output_length_of_layers[i + 1], output, weights[i + 1])
 
 print(f"Manual Model Prediction (with rounding):\t{output[0]}")
