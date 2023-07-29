@@ -57,8 +57,7 @@ weights = extract_weights(trained_model)
 output_length_of_layers = [layer.output.shape[1] for layer in trained_model.layers if len(layer.weights) > 0]
 
 output = layer(output_length_of_layers[0], np.array([*test_position, 1], dtype=float64), weights[0])
-output = layer(output_length_of_layers[1], output, weights[1])
-output = layer(output_length_of_layers[2], output, weights[2])
-output = layer(output_length_of_layers[3], output, weights[3])
+for i in range(len(output_length_of_layers) - 1):
+    output = layer(output_length_of_layers[i + 1], output, weights[i + 1])
 
 print(f"Manual Model Prediction (with rounding):\t{output[0]}")
